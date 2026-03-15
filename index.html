@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKSARA - Aplikasi Kebudayaan Sejarah & Arsitektur Plaosan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: linear-gradient(135deg, #78350f, #c2410c, #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeOut 0.5s ease 3.5s forwards;
+        }
+
+        .splash-content {
+            text-align: center;
+            color: #fef3c7;
+            animation: scaleIn 1s ease;
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            border: 4px solid #fef3c7;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: rotate 1s ease;
+        }
+
+        .splash-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: slideUp 0.8s ease 0.5s both;
+        }
+
+        .splash-subtitle {
+            font-size: 1.5rem;
+            color: #fde68a;
+            animation: slideUp 0.8s ease 0.8s both;
+        }
+
+        .loading-bar {
+            width: 250px;
+            height: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            margin: 2rem auto 0;
+            overflow: hidden;
+            animation: slideUp 0.8s ease 1.2s both;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #fb923c);
+            animation: loadProgress 2s ease 1.5s forwards;
+            width: 0;
+        }
+
+        /* Mascot Greeting */
+        #mascot-greeting {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #mascot-greeting.show {
+            display: flex;
+        }
+
+        .mascot-card {
+            background: linear-gradient(135deg, #fffbeb, #fed7aa);
+            border-radius: 2rem;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .mascot-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: #fde68a;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mascot-close:hover {
+            background: #fbbf24;
+            transform: rotate(90deg);
+        }
+
+        .mascot-icon {
+            font-size: 6rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s ease infinite;
+        }
+
+        .mascot-title {
+            font-size: 2rem;
+            color: #78350f;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .mascot-text {
+            color: #92400e;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .mascot-button {
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .mascot-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #78350f, #c2410c);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fef3c7;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: #fef3c7;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .section {
+            display: none;
+            min-height: calc(100vh - 80px);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: #78350f;
+            margin-bottom: 1rem;
+        }
+
+        .section-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #ea580c);
+            margin: 0 auto 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #92400e;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://images.unsplash.com/photo-1619934958564-78898c5906f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1920') center/cover;
+            margin-bottom: 3rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #fde68a;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #fde68a;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #78350f;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            color: #92400e;
+            line-height: 1.6;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Comic */
+        .comic-reader {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            border: 4px solid #fbbf24;
+        }
+
+        .comic-image {
+            position: relative;
+            aspect-ratio: 4/3;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .comic-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .comic-page-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f59e0b;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            z-index: 1;
+        }
+
+        .comic-text {
+            padding: 2rem;
+            background: linear-gradient(to bottom, white, #fffbeb);
+        }
+
+        .comic-title {
+            font-size: 2rem;
+            color: #78350f;
+            margin-bottom: 1rem;
+        }
+
+        .comic-description {
+            color: #92400e;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .comic-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .comic-btn {
+            padding: 1rem 2rem;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .comic-btn:hover {
+            background: #d97706;
+        }
+
+        .comic-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .comic-indicator {
+            width: 12px;
+            height: 12px;
+            background: #fde68a;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .comic-indicator.active {
+            background: #f59e0b;
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #fbbf24, #ea580c, #fbbf24);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #fde68a;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-year {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: white;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            color: #78350f;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: #92400e;
+            line-height: 1.6;
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-progress {
+            margin-bottom: 2rem;
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #fde68a;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #ea580c);
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            background: white;
+            border-radius: 2rem;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 4px solid #fbbf24;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question-text {
+            font-size: 1.8rem;
+            color: #78350f;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            padding: 1rem 1.5rem;
+            background: #fffbeb;
+            border: 2px solid #fde68a;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quiz-option:hover {
+            background: #fef3c7;
+            transform: scale(1.02);
+        }
+
+        .quiz-option.correct {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .quiz-option.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .quiz-option-letter {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #92400e;
+            font-weight: bold;
+        }
+
+        .quiz-explanation {
+            background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid #3b82f6;
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+
+        .quiz-result {
+            text-align: center;
+            background: white;
+            border-radius: 2rem;
+            padding: 4rem 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 4px solid #fbbf24;
+        }
+
+        .quiz-result-icon {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-result-score {
+            font-size: 4rem;
+            color: #78350f;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-result-message {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 2rem;
+        }
+
+        /* Map Section */
+        .map-container {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #78350f, #c2410c);
+            color: white;
+            padding: 3rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fef3c7;
+        }
+
+        .footer-text {
+            color: #fde68a;
+            line-height: 1.6;
+        }
+
+        .footer-link {
+            color: #fde68a;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #92400e;
+            color: #fde68a;
+        }
+
+        /* Animations */
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(-180deg) scale(0); }
+            to { transform: rotate(0) scale(1); }
+        }
+
+        @keyframes loadProgress {
+            to { width: 100%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .nav-links { font-size: 0.8rem; }
+            .timeline::before { left: 30px; }
+            .timeline-dot { left: 30px; }
+            .timeline-content { width: calc(100% - 80px); margin-left: 80px !important; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Utility */
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-4 { margin-top: 2rem; }
+    </style>
+</head>
+<body>
+<!-- Splash Screen -->
+<div id="splash-screen">
+  <div class="splash-content">
+    <!-- Ganti emoji dengan gambar -->
+    <div class="splash-logo">
+      <img src="logo.png" alt="Logo AKSARA" class="logo-img">
+    </div>
+    <h1 class="splash-title">AKSARA</h1>
+    <p class="splash-subtitle">Aplikasi Kebudayaan Sejarah & Arsitektur Plaosan</p>
+    <div class="loading-bar">
+      <div class="loading-progress"></div>
+    </div>
+  </div>
+</div>
+
+    <!-- Mascot Greeting -->
+    <div id="mascot-greeting">
+        <div class="mascot-card">
+            <button class="mascot-close" onclick="closeMascot()">×</button>
+            <div class="mascot-icon">🏛️</div>
+            <h2 class="mascot-title">Halo, Selamat Datang! 👋</h2>
+            <p class="mascot-text">
+                Aku akan menemanimu menjelajahi keajaiban <strong>Candi Plaosan</strong>, 
+                salah satu warisan budaya terhebat di Kabupaten Klaten. 
+                Yuk, kita mulai petualangan sejarah kita!
+            </p>
+            <button class="mascot-button" onclick="closeMascot()">Mulai Jelajah! 🚀</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                     <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">
+                    <img src="logo.png" alt="Logo AKSARA" class="logo-img">
+                </div>
+                <h1>AKSARA</h1>
+            </div>
+            
+            <div class="nav-links">
+                <button class="nav-link active" onclick="showSection('home')">🏠 Beranda</button>
+                <button class="nav-link" onclick="showSection('timeline')">⏰ Sejarah</button>
+                <button class="nav-link" onclick="showSection('map')">🗺️ Lokasi</button>
+                <button class="nav-link" onclick="showSection('gallery')">📸 Galeri</button>
+                <button class="nav-link" onclick="showSection('comic')">📚 Komik</button>
+                <button class="nav-link" onclick="showSection('facts')">💡 Fakta</button>
+                <button class="nav-link" onclick="showSection('quiz')">🎯 Kuis</button>
+                <button class="nav-link" onclick="showSection('feedback')">💬 Feedback</button>
+                <button class="nav-link" onclick="showSection('profile')">👤 Profil Pembuat</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+              <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Candi Plaosan</h1>
+                    <p class="hero-subtitle">Mutiara Warisan Budaya di Jantung Klaten</p>
+                    <button class="btn-primary" onclick="showSection('timeline')">Jelajahi Sejarah →</button>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">📍</div>
+                        <h3 class="card-title">Lokasi</h3>
+                        <p class="card-text">Bugisan, Prambanan, Kabupaten Klaten, Jawa Tengah</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📅</div>
+                        <h3 class="card-title">Periode</h3>
+                        <p class="card-text">Abad ke-9 Masehi, Era Dinasti Sanjaya</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">⭐</div>
+                        <h3 class="card-title">Keunikan</h3>
+                        <p class="card-text">Kompleks candi kembar Buddha & Hindu yang langka</p>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2 class="section-title">Tentang Candi Plaosan</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="card">
+                    <p class="card-text mb-2">
+                        Candi Plaosan adalah kompleks candi Buddha yang terletak di Kabupaten Klaten, 
+                        Jawa Tengah. Kompleks ini terdiri dari dua kelompok utama: Plaosan Lor (Utara) 
+                        dan Plaosan Kidul (Selatan).
+                    </p>
+                    <p class="card-text mb-2">
+                        Dibangun pada abad ke-9 M, candi ini merupakan bukti toleransi beragama pada 
+                        masa Dinasti Sanjaya, di mana pernikahan Raja Pikatan (Hindu) dengan Putri 
+                        Pramudawardhani (Buddha) melahirkan harmoni antara dua kepercayaan.
+                    </p>
+                    <p class="card-text">
+                        Arsitektur candi yang megah dengan relief-relief indah menjadikan Candi Plaosan 
+                        sebagai salah satu situs bersejarah paling berharga di Indonesia.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Map Section -->
+        <section id="map" class="section">
+            <div class="container">
+                <div class="section-header">
+                <h2 class="section-title">Lokasi & Informasi</h2>
+                <div class="section-divider"></div>
+            </div>
+
+        <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps?q=Candi+Plaosan+Klaten&output=embed"
+            width="100%" 
+            height="400" 
+            style="border:0;" 
+            allowfullscreen 
+            loading="lazy">
+        </iframe>
+        </div>
+
+<div class="cards-grid">
+    <div class="card">
+        <div class="card-icon">🕐</div>
+        <h3 class="card-title">Jam Operasional</h3>
+        <p class="card-text"><strong>Setiap Hari:</strong> 06:00 - 17:00 WIB</p>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">💰</div>
+        <h3 class="card-title">Harga Tiket</h3>
+        <p class="card-text">
+            <strong>Domestik:</strong> Rp 10.000<br>
+            <strong>Mancanegara:</strong> Rp 25.000
+        </p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <h3 class="card-title">💡 Tips Berkunjung</h3>
+    <p class="card-text">
+        ✓ Datang pagi hari untuk menghindari panas dan pengunjung ramai<br>
+        ✓ Kenakan pakaian yang nyaman dan sepatu yang cocok untuk berjalan<br>
+        ✓ Bawa topi, kacamata hitam, dan sunscreen<br>
+        ✓ Jaga kebersihan dan kelestarian situs budaya<br>
+        ✓ Hormati aturan yang berlaku di area candi
+    </p>
+</div>
+</section>
+
+<!-- Comic Section -->
+<section id="comic" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">📖 Komik Plaosan</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Pilih chapter untuk membaca</p>
+    </div>
+
+    <!-- Tombol Chapter -->
+    <div id="chapter-menu" class="chapter-buttons">
+      <button onclick="showChapter(1)">
+        <span class="title">AKSARA</span>
+        <span class="subtitle">Chapter 1</span>
+        <span class="subtitle">Gerbang yang Hampir Tertutup</span>
+      </button>
+      <button disabled>
+        <span class="title">AKSARA</span>
+        <span class="subtitle">Coming Soon</span>
+      </button>
+      <button disabled>
+        <span class="title">AKSARA</span>
+        <span class="subtitle">Coming Soon</span>
+      </button>
+    </div>
+
+    <!-- Isi Komik -->
+    <div id="chapter1" class="chapter-content" style="display:none;">
+      <button class="back-btn" onclick="backToMenu()">⬅ Kembali</button>
+      <img src="chapter 1.png" alt="Chapter 1 Page 1">
+    
+    </div>
+  </div>
+</section>
+
+<script>
+function showChapter(chapter) {
+  document.getElementById('chapter-menu').style.display = 'none';
+  document.querySelectorAll('.chapter-content').forEach(el => el.style.display = 'none');
+  document.getElementById('chapter' + chapter).style.display = 'block';
+  document.getElementById('comic').scrollIntoView({behavior: 'smooth'});
+}
+
+function backToMenu() {
+  document.querySelectorAll('.chapter-content').forEach(el => el.style.display = 'none');
+  document.getElementById('chapter-menu').style.display = 'flex';
+  document.getElementById('comic').scrollIntoView({behavior: 'smooth'});
+}
+</script>
+
+<style>
+.chapter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.chapter-buttons button {
+  background-color: #8B5E3C; /* coklat */
+  color: #fff;
+  width: 220px;
+  height: 160px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chapter-buttons button:hover:enabled {
+  background-color: #A97458;
+}
+
+.chapter-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.chapter-buttons .title {
+  font-family: "Brush Script MT", cursive; /* curly style */
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.chapter-buttons .subtitle {
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.chapter-content img {
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+  display: block;
+}
+
+.back-btn {
+  margin: 20px 0;
+  padding: 12px 28px;
+  cursor: pointer;
+  background: #8B5E3C;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #A97458;
+}
+</style>
+
+<!-- Gallery Section -->
+<section id="gallery" class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">📸 Galeri Foto</h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">Keindahan Candi Plaosan dalam Gambar</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="candi induk plaosan.jpeg" alt="Candi Induk Plaosan">
+                <div class="gallery-overlay">
+                    <h3>Candi Induk Plaosan</h3>
+                    <p>Pemandangan megah candi induk dari belakang</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="candi stupa.jpeg" alt="Candi Stupa">
+                <div class="gallery-overlay">
+                    <h3>Candi Stupa</h3>
+                    <p>Bangunan stupa sebagai simbol kesakralan dalam kompleks Candi Plaosan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="candi perwara.jpeg" alt="Candi Perwara">
+                <div class="gallery-overlay">
+                    <h3>Candi Perwara</h3>
+                    <p>Candi kecil pendamping yang mengelilingi candi induk</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="candi stupa dan perwara yang mengelilingi candi induk.jpeg" alt="Stupa dan Perwara">
+                <div class="gallery-overlay">
+                    <h3>Stupa dan Perwara</h3>
+                    <p>Deretan stupa dan candi perwara yang mengelilingi candi induk</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="reruntuhan candi stupa.jpeg" alt="Reruntuhan Candi Stupa">
+                <div class="gallery-overlay">
+                    <h3>Reruntuhan Batuan Candi Stupa</h3>
+                    <p>Stupa yang masih dalam tahap pemugaran</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="tampak depan candi plaosan.jpeg" alt="Tampak Depan Candi Plaosan">
+                <div class="gallery-overlay">
+                    <h3>Candi Plaosan Tampak Depan</h3>
+                    <p>Pemandangan awal Candi Plaosan dari depan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="Arsitektur Candi Plaosan tampak depan.jpeg" alt="Arsitektur Candi Plaosan Tampak Depan">
+                <div class="gallery-overlay">
+                    <h3>Arsitektur Candi Plaosan Tampak Depan</h3>
+                    <p>Pemandangan arsitektur Candi Plaosan dari depan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="tampak belakang candi plaosan.jpeg" alt="Candi Plaosan Tampak Belakang">
+                <div class="gallery-overlay">
+                    <h3>Arsitektur Candi Plaosan Tampak Belakang</h3>
+                    <p>Pemandangan arsitektur Candi Plaosan dari belakang yang dilengkapi dengan relief-relief</relief-relief></p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="candi plaosan tampak samping.jpeg" alt="Candi Plaosan Tampak Samping">
+                <div class="gallery-overlay">
+                    <h3>Candi Plaosan Tampak Samping</h3>
+                    <p>Pemandangan samping Candi Plaosan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="arca dwarapala.jpeg" alt="Arca Dwarapala">
+                <div class="gallery-overlay">
+                    <h3>Arca Dwarapala</h3>
+                    <p>Patung penjaga gerbang pintu masuk dengan wujud gagah</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="relief bunga.jpeg" alt="Relief Bunga">
+                <div class="gallery-overlay">
+                    <h3>Relief Bunga</h3>
+                    <p>Ukiran relief berbentuk bunga yang menghiasi kaki candi</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="Dua Arca Dalam Candi.jpeg" alt="Arca Dhyani Bodhisatwa">
+                <div class="gallery-overlay">
+                    <h3>Arca Dhyani Bodhisatwa</h3>
+                    <p>Patung Buddha dalam posisi meditasi di dalam Candi Plaosan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="Relief Tokoh Bangsawan.jpeg" alt="Relief Tokoh Bangsawan">
+                <div class="gallery-overlay">
+                    <h3>Relief Tokoh Bangsawan</h3>
+                    <p>Ukiran relief pada dinding bagian dalam Candi Plaosanyang menampilkan tokoh bangsawan, menunjukkan status sosial dan keagungan pada masa itu</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="figur memegang teratai.jpeg" alt="Figur Memegang Teratai">
+                <div class="gallery-overlay">
+                    <h3>Relief Figur dengan Teratai</h3>
+                    <p>Ukiran relief pada dinding Candi Perwara yang menampilkan figur memegang teratai, melambangkan kesucian dan pencerahan</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="relief tidak utuh.jpeg" alt="Relief Tidak Utuh">
+                <div class="gallery-overlay">
+                    <h3>Relief Tidak Utuh</h3>
+                    <p>Relief candi yang sudah tidak utuh, sebagian ditutup dengan susunan batu pemugaran</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        <!-- Timeline Section -->
+        <section id="timeline" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">⏰ Timeline Sejarah</h2>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">Perjalanan Panjang Candi Plaosan</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">856 M</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">856 M</span>
+                            <h3 class="timeline-title">Pembangunan Dimulai</h3>
+                            <p class="timeline-desc">Raja Pikatan memerintahkan pembangunan Candi Plaosan untuk menghormati istrinya, Putri Pramudawardhani.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">860 M</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">860 M</span>
+                            <h3 class="timeline-title">Kompleks Utama Selesai</h3>
+                            <p class="timeline-desc">Candi utama Plaosan Lor dan Plaosan Kidul berhasil diselesaikan dengan arsitektur yang megah.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">900 M</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">900 M</span>
+                            <h3 class="timeline-title">Era Kejayaan</h3>
+                            <p class="timeline-desc">Candi Plaosan menjadi pusat kegiatan keagamaan Buddha yang penting di Mataram Kuno.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1006 M</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">1006 M</span>
+                            <h3 class="timeline-title">Letusan Gunung Merapi</h3>
+                            <p class="timeline-desc">Letusan besar Gunung Merapi menyebabkan kompleks candi ditinggalkan dan terkubur abu vulkanik.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1800-an</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">1800-an</span>
+                            <h3 class="timeline-title">Ditemukan Kembali</h3>
+                            <p class="timeline-desc">Penjelajah Eropa mulai menemukan reruntuhan candi yang tertutup semak dan tanah.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1991</div>
+                        <div class="timeline-content">
+                            <span class="timeline-year">1991</span>
+                            <h3 class="timeline-title">Warisan Dunia UNESCO</h3>
+                            <p class="timeline-desc">Kompleks Prambanan (termasuk Plaosan) ditetapkan sebagai Situs Warisan Dunia UNESCO.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid mt-4">
+                    <div class="card" style="background: linear-gradient(135deg, #f59e0b, #ea580c); color: white;">
+                        <h3 class="card-title" style="color: white;">Usia Candi</h3>
+                        <div style="font-size: 3rem; margin: 1rem 0;">1,168+</div>
+                        <p style="color: #fef3c7;">Tahun berdiri megah!</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #ea580c, #dc2626); color: white;">
+                        <h3 class="card-title" style="color: white;">Jumlah Bangunan</h3>
+                        <div style="font-size: 3rem; margin: 1rem 0;">174</div>
+                        <p style="color: #fef3c7;">Struktur candi dalam kompleks</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #a855f7, #ec4899); color: white;">
+                        <h3 class="card-title" style="color: white;">Arca Buddha</h3>
+                        <div style="font-size: 3rem; margin: 1rem 0;">100+</div>
+                        <p style="color: #fef3c7;">Patung masih dapat ditemukan</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facts Section -->
+        <section id="facts" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">💡 Fakta Menarik</h2>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">Hal-hal Menakjubkan tentang Candi Plaosan</p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">❤️</div>
+                        <h3 class="card-title">Simbol Cinta Abadi</h3>
+                        <p class="card-text">Candi Plaosan dibangun sebagai bukti cinta Raja Pikatan (Hindu) kepada istrinya Putri Pramudawardhani (Buddha). Ini adalah salah satu kisah cinta paling romantis dalam sejarah Indonesia!</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🏛️</div>
+                        <h3 class="card-title">Candi Kembar yang Unik</h3>
+                        <p class="card-text">Kompleks Plaosan terdiri dari dua kelompok candi kembar: Plaosan Lor dan Plaosan Kidul. Keduanya simetris dan mencerminkan harmoni sempurna.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🤝</div>
+                        <h3 class="card-title">Toleransi Beragama</h3>
+                        <p class="card-text">Candi ini adalah bukti nyata toleransi beragama sejak abad ke-9! Buddha dan Hindu hidup berdampingan secara damai, bahkan dalam satu kompleks candi.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🌸</div>
+                        <h3 class="card-title">Relief Penuh Makna</h3>
+                        <p class="card-text">Terdapat relief Boddhisatwa yang sangat detail, menggambarkan wajah lembut seperti wanita. Dipercaya ini adalah potret Putri Pramudawardhani!</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">👑</div>
+                        <h3 class="card-title">Arsitektur Istimewa</h3>
+                        <p class="card-text">Berbeda dengan candi lain, Plaosan memiliki "candi perwara" kecil yang jumlahnya mencapai 174 buah! Ini menunjukkan kemegahan kompleks candi.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">💡</div>
+                        <h3 class="card-title">Teknologi Canggih</h3>
+                        <p class="card-text">Sistem drainase candi sangat canggih untuk zamannya. Air hujan dialirkan dengan sempurna sehingga candi tidak tergenang selama 1000+ tahun!</p>
+                    </div>
+                </div>
+
+                <div class="card mt-4" style="background: linear-gradient(135deg, #f59e0b, #ea580c); color: white;">
+                    <h3 class="card-title" style="color: white;">💎 Tahukah Kamu?</h3>
+                    <p class="card-text" style="color: #fef3c7;">
+                        • Nama "Plaosan" berasal dari kata "pelaosan" yang berarti tempat peleburan logam<br>
+                        • Candi ini menggabungkan elemen arsitektur Buddha Mahayana dan Hindu<br>
+                        • Terdapat 58 stupa kecil di sekitar candi utama<br>
+                        • Relief di Candi Plaosan menggambarkan kisah Jataka dan kehidupan Buddha<br>
+                        • Masih ada ruang-ruang tersembunyi yang belum sepenuhnya dieksplorasi!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+<!-- Quiz Section -->
+<section id="quiz" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🎯 Kuis Candi Plaosan</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Uji Pengetahuanmu!</p>
+    </div>
+
+    <!-- Halaman Start -->
+    <div id="quiz-start" class="quiz-start">
+      <div class="start-content">
+        <h3>Siap untuk bermain?</h3>
+        <button class="btn-primary" onclick="startQuiz()">Mulai Kuis</button>
+      </div>
+    </div>
+
+    <!-- Game -->
+    <div class="quiz-container" id="quiz-game" style="display:none;">
+      <div class="quiz-progress">
+        <div style="display: flex; justify-content: space-between; color: #92400e; margin-bottom: 0.5rem;">
+          <span id="quiz-progress-text">Pertanyaan 1 dari 8</span>
+          <span>Skor: <span id="quiz-score">0</span></span>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quiz-progress-bar" style="width: 12.5%"></div>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <h3 class="quiz-question-text" id="quiz-question-text"></h3>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div id="quiz-explanation" style="display: none;"></div>
+      </div>
+
+      <div class="text-center" id="quiz-next-container" style="display: none;">
+        <button class="btn-primary" onclick="nextQuestion()">Pertanyaan Selanjutnya →</button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="quiz-result" style="display: none;"></div>
+  </div>
+</section>
+
+<style>
+.quiz-start {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.start-content {
+  text-align: center;
+}
+
+.btn-primary {
+  background: #8B5E3C;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #A97458;
+}
+
+/* Responsif untuk mobile */
+@media (max-width: 768px) {
+  .btn-primary {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}
+</style>
+
+<script>
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-game').style.display = 'block';
+  loadQuestion();
+}
+
+// ... kode kuis kamu (quizQuestions, loadQuestion, answerQuestion, dll.) tetap dipakai
+</script>
+
+<!-- Feedback Section -->
+<section id="feedback" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">💬 Feedback Pengguna</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">
+        Bantu kami meningkatkan website dengan mengisi feedback di bawah ini
+      </p>
+    </div>
+
+    <div class="card text-center">
+      <h3 class="card-title">📋 Form Feedback</h3>
+      <p class="card-text">
+        Silakan klik tombol di bawah untuk mengisi form feedback.
+        Masukan dari kamu sangat berarti untuk pengembangan website ini.
+      </p>
+
+      <!-- Link tombol dengan warna coklat -->
+      <a 
+        href="https://docs.google.com/forms/d/e/1FAIpQLScSjmcaWqOwTMUQzxtmLJN6uQ_VR2Zof6ZY9m7modhY5OG16Q/viewform?usp=header"
+        target="_blank"
+        class="feedback-link"
+      >
+        📝 Isi Form Feedback
+      </a>
+
+      <p class="card-text" style="margin-top:1rem; font-size:0.9rem;">
+        *Form akan terbuka di tab baru
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+/* Styling untuk tombol link feedback dengan warna coklat */
+.feedback-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff; /* teks putih */
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background-color: #8B4513; /* coklat solid */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* Efek hover */
+.feedback-link:hover {
+  background-color: #A0522D; /* coklat lebih terang */
+  text-decoration: underline;
+}
+
+/* Efek saat link dikunjungi */
+.feedback-link:visited {
+  background-color: #5C3317; /* coklat lebih gelap */
+}
+</style>
+
+         <!-- Profile Section -->
+          <section id="profile" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">👤 Profil Pembuat</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">
+        Tim di balik Website Edukasi Candi Plaosan - AKSARA
+      </p>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- PEMBUAT 1 -->
+      <div class="card text-center">
+        <img 
+          src="aisyah.jpeg" 
+          alt="Foto Pembuat 1"
+          style="
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            border:4px solid #fbbf24;
+            margin-bottom:1rem;
+          "
+        >
+        <h3 class="card-title">Aisyah Dhia Syarafana</h3>
+        <p class="card-text">
+          <strong>Peran: </strong> Web Developer & Konseptor<br>
+          <strong>Sekolah: </strong> SMA Negeri 1 Klaten<br>
+          <strong>Instagram:</strong> 
+            <a href="https://www.instagram.com/aisyrfn._" target="_blank">@aisyrfn._</a>
+
+        </p>
+      </div>
+
+      <!-- PEMBUAT 2 -->
+      <div class="card text-center">
+        <img 
+          src="sekar.jpeg" 
+          alt="Foto Pembuat 2"
+          style="
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            border:4px solid #fbbf24;
+            margin-bottom:1rem;
+          "
+        >
+        <h3 class="card-title">Sekar Ayu Nur Jannah</h3>
+        <p class="card-text">
+          <strong>Peran: </strong> Ilustrator <br>
+          <strong>Sekolah: </strong> SMA Negeri 1 Klaten<br>
+          <strong>Instagram: </strong> 
+            <a href="https://www.instagram.com/pledgeskaru" target="_blank">@pledgeskaru</a>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="card mt-4">
+      <h3 class="card-title">🎯 Tentang Proyek</h3>
+      <p class="card-text">
+        AKSARA (Aplikasi Kebudayaan Sejarah & Arsitektur Plaosan) merupakan media edukasi interaktif berbasis website yang dirancang untuk memperkenalkan serta melestarikan nilai sejarah dan arsitektur Candi Plaosan kepada generasi muda.
+        Melalui perpaduan teknologi digital dan konten edukatif, AKSARA menghadirkan berbagai fitur interaktif seperti komik digital sejarah, kuis pengetahuan, galeri visual candi, peta lokasi, serta informasi sejarah yang mudah dipahami.
+        Proyek ini bertujuan untuk menjadikan pembelajaran sejarah tidak lagi terasa membosankan, melainkan menjadi pengalaman yang menarik, interaktif, dan menyenangkan. Dengan memanfaatkan teknologi berbasis website yang mudah diakses, diharapkan masyarakat, khususnya generasi muda, dapat lebih mengenal dan menghargai warisan budaya Indonesia.
+        AKSARA juga menjadi salah satu upaya inovatif dalam mengintegrasikan teknologi digital dengan pelestarian budaya, sehingga nilai-nilai sejarah yang terkandung dalam Candi Plaosan dapat terus dikenal dan diwariskan kepada generasi berikutnya.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-title">🏛️ AKSARA</h3>
+                    <p class="footer-text">Media edukasi digital untuk mengenalkan sejarah dan arsitektur Candi Plaosan kepada generasi muda melalui komik, kuis, dan galeri interaktif.</p>
+                </div>
+                <div>
+                    <h3 class="footer-title">Menu Cepat</h3>
+                    <p class="footer-text">
+                        <span class="footer-link" onclick="showSection('home')">Beranda</span><br>
+                        <span class="footer-link" onclick="showSection('map')">Lokasi</span><br>
+                        <span class="footer-link" onclick="showSection('comic')">Komik</span><br>
+                        <span class="footer-link" onclick="showSection('gallery')">Galeri</span><br>
+                        <span class="footer-link" onclick="showSection('history')">Sejarah</span><br>
+                        <span class="footer-link" onclick="showSection('facts')">Fakta</span><br>
+                        <span class="footer-link" onclick="showSection('quiz')">Kuis</span><br
+                        <span class="footer-link" onclick="showSection('feedback')">Feedback</span><br>
+                        <span class="footer-link" onclick="showSection('about')">Profil Pembuat</span><br>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="footer-title">Informasi Lebih Lanjut</h3>
+                    <p class="footer-text">Untuk informasi lebih lanjut tentang AKSARA,</p>
+                    <p class="footer-text">silakan hubungi kami melalui media sosial.</p>
+                    <a href="https://www.instagram.com/aksaraweb_official" target="_blank">@aksaraweb_official</a>
+                </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 AKSARA – Aplikasi Kebudayaan Sejarah dan Arsitektur Plaosan</p>
+                <p>Kabupaten Klaten, Jawa Tengah</p> 
+                <p style="margin-top: 0.5rem;">Dikembangkan oleh Tim Saphalya untuk mendukung pelestarian warisan budaya Indonesia.</p>   
+               
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Splash Screen
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('mascot-greeting').classList.add('show');
+            }, 500);
+        }, 3500);
+
+        function closeMascot() {
+            document.getElementById('mascot-greeting').classList.remove('show');
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        
+        // Quiz
+        const quizQuestions = [
+            {
+                question: 'Pada abad berapa Candi Plaosan dibangun?',
+                options: ['Abad ke-7', 'Abad ke-8', 'Abad ke-9', 'Abad ke-10'],
+                correct: 2,
+                explanation: 'Candi Plaosan dibangun pada abad ke-9 Masehi oleh Raja Pikatan.'
+            },
+            {
+                question: 'Siapa yang memerintahkan pembangunan Candi Plaosan?',
+                options: ['Raja Balaputradewa', 'Raja Pikatan', 'Raja Dharmawangsa', 'Raja Airlangga'],
+                correct: 1,
+                explanation: 'Raja Pikatan yang beragama Hindu membangun candi ini untuk istrinya yang beragama Buddha.'
+            },
+            {
+                question: 'Candi Plaosan adalah candi agama apa?',
+                options: ['Hindu', 'Buddha', 'Hindu-Buddha', 'Islam'],
+                correct: 1,
+                explanation: 'Candi Plaosan adalah candi Buddha, meski dibangun oleh raja yang beragama Hindu.'
+            },
+            {
+                question: 'Berapa jumlah kompleks utama Candi Plaosan?',
+                options: ['1 kompleks', '2 kompleks', '3 kompleks', '4 kompleks'],
+                correct: 1,
+                explanation: 'Ada 2 kompleks: Plaosan Lor (Utara) dan Plaosan Kidul (Selatan).'
+            },
+            {
+                question: 'Apa yang unik dari Candi Plaosan?',
+                options: ['Candi tertinggi di Jawa', 'Simbol toleransi beragama', 'Terbuat dari emas', 'Dibangun dalam semalam'],
+                correct: 1,
+                explanation: 'Candi Plaosan adalah simbol toleransi dan cinta antara dua penganut agama berbeda.'
+            },
+            {
+                question: 'Di kabupaten mana Candi Plaosan berada?',
+                options: ['Sleman', 'Bantul', 'Klaten', 'Magelang'],
+                correct: 2,
+                explanation: 'Candi Plaosan terletak di Kabupaten Klaten, Jawa Tengah.'
+            },
+            {
+                question: 'Berapa kira-kira jumlah struktur candi dalam kompleks Plaosan?',
+                options: ['50 struktur', '100 struktur', '174 struktur', '250 struktur'],
+                correct: 2,
+                explanation: 'Kompleks Candi Plaosan memiliki sekitar 174 struktur bangunan!'
+            },
+            {
+                question: 'Siapa istri Raja Pikatan yang menjadi inspirasi pembangunan candi?',
+                options: ['Putri Sima', 'Putri Pramudawardhani', 'Putri Manohara', 'Putri Gayatri'],
+                correct: 1,
+                explanation: 'Putri Pramudawardhani, putri dari Dinasti Syailendra yang beragama Buddha.'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let quizScore = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            const q = quizQuestions[currentQuestion];
+            document.getElementById('quiz-question-text').textContent = q.question;
+            document.getElementById('quiz-progress-text').textContent = `Pertanyaan ${currentQuestion + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestion + 1) / quizQuestions.length) * 100}%`;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'quiz-option';
+                btn.innerHTML = `
+                    <div class="quiz-option-letter">${String.fromCharCode(65 + index)}</div>
+                    <span>${option}</span>
+                `;
+                btn.onclick = () => answerQuestion(index);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-explanation').style.display = 'none';
+            document.getElementById('quiz-next-container').style.display = 'none';
+            answered = false;
+        }
+
+        function answerQuestion(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizQuestions[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((option, index) => {
+                if (index === q.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('wrong');
+                }
+                option.style.pointerEvents = 'none';
+            });
+
+            if (selectedIndex === q.correct) {
+                quizScore++;
+                document.getElementById('quiz-score').textContent = quizScore;
+            }
+
+            const explanationDiv = document.getElementById('quiz-explanation');
+            explanationDiv.className = 'quiz-explanation';
+            explanationDiv.innerHTML = `<strong>💡 Penjelasan:</strong> ${q.explanation}`;
+            explanationDiv.style.display = 'block';
+
+            document.getElementById('quiz-next-container').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            const percentage = (quizScore / quizQuestions.length) * 100;
+            let message = '';
+            
+            if (percentage === 100) message = '🎉 Sempurna! Kamu adalah ahli Candi Plaosan!';
+            else if (percentage >= 80) message = '🌟 Hebat! Pengetahuanmu sangat baik!';
+            else if (percentage >= 60) message = '👍 Bagus! Kamu cukup tahu tentang Candi Plaosan!';
+            else if (percentage >= 40) message = '💪 Tidak buruk! Masih perlu belajar lebih banyak!';
+            else message = '📚 Ayo belajar lagi! Jelajahi website ini lebih dalam!';
+
+            document.getElementById('quiz-game').style.display = 'none';
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerHTML = `
+                <div class="quiz-result">
+                    <div class="quiz-result-icon">🏆</div>
+                    <h2 class="section-title" style="margin-bottom: 1rem;">Kuis Selesai!</h2>
+                    <div class="quiz-result-score">${quizScore}/${quizQuestions.length}</div>
+                    <p class="quiz-result-message">${message}</p>
+                    <div style="width: 100%; max-width: 400px; margin: 0 auto 1rem;">
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <p style="color: #92400e; margin-top: 0.5rem;">${Math.round(percentage)}% Benar</p>
+                    </div>
+                    <button class="btn-primary" onclick="resetQuiz()">🔄 Coba Lagi</button>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score').textContent = '0';
+            document.getElementById('quiz-game').style.display = 'block';
+            document.getElementById('quiz-result').style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize quiz
+        loadQuestion();
+
+    
+    </script>
+</body>
+</html>

@@ -1020,8 +1020,6 @@
 
 <img src="chapter 1.png">
 </div>
-
-</div>
 </section>
 
 
@@ -1745,65 +1743,135 @@ function startQuiz() {
   </div>
 </section>
 
+<!-- Footer -->
+<footer class="footer">
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div>
-                    <h3 class="footer-title">🏛️ AKSARA</h3>
-                    <p class="footer-text">Media edukasi digital untuk mengenalkan sejarah dan arsitektur Candi Plaosan kepada generasi muda melalui komik, kuis, dan galeri interaktif.</p>
-                </div>
-                <div>
-                    <h3 class="footer-title">Menu Cepat</h3>
-                    <p class="footer-text">
-                        <span class="footer-link" onclick="showSection('home')">Beranda</span><br>
-                        <span class="footer-link" onclick="showSection('map')">Lokasi</span><br>
-                        <span class="footer-link" onclick="showSection('comic')">Komik</span><br>
-                        <span class="footer-link" onclick="showSection('gallery')">Galeri</span><br>
-                        <span class="footer-link" onclick="showSection('history')">Sejarah</span><br>
-                        <span class="footer-link" onclick="showSection('facts')">Fakta</span><br>
-                        <span class="footer-link" onclick="showSection('quiz')">Kuis</span><br
-                        <span class="footer-link" onclick="showSection('feedback')">Feedback</span><br>
-                        <span class="footer-link" onclick="showSection('about')">Profil Pembuat</span><br>
-                    </p>
-                </div>
-                <div>
-                    <h3 class="footer-title">Informasi Lebih Lanjut</h3>
-                    <p class="footer-text">Untuk informasi lebih lanjut tentang AKSARA,</p>
-                    <p class="footer-text">silakan hubungi kami melalui media sosial.</p>
-                    <a href="https://www.instagram.com/aksaraweb_official" target="_blank">
-                        <img src="logo instagram.png" alt="Instagram" class="social-icon">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <div class="footer-container">
+
+    <div class="footer-grid">
+
+      <!-- Tentang -->
+      <div>
+        <h3 class="footer-title">🏛️ AKSARA</h3>
+        <p class="footer-text">
+          Media edukasi digital untuk mengenalkan sejarah dan arsitektur 
+          Candi Plaosan kepada generasi muda melalui komik, kuis, dan 
+          galeri interaktif.
+        </p>
+      </div>
+
+      <!-- Menu Cepat -->
+      <div>
+        <h3 class="footer-title">Menu Cepat</h3>
+        <p class="footer-text">
+          <span class="footer-link" onclick="showSection('home')">Beranda</span><br>
+          <span class="footer-link" onclick="showSection('map')">Lokasi</span><br>
+          <span class="footer-link" onclick="showSection('comic')">Komik</span><br>
+          <span class="footer-link" onclick="showSection('gallery')">Galeri</span><br>
+          <span class="footer-link" onclick="showSection('history')">Sejarah</span><br>
+          <span class="footer-link" onclick="showSection('facts')">Fakta</span><br>
+          <span class="footer-link" onclick="showSection('quiz')">Kuis</span><br>
+          <span class="footer-link" onclick="showSection('feedback')">Feedback</span><br>
+          <span class="footer-link" onclick="showSection('about')">Profil Pembuat</span>
+        </p>
+      </div>
+
+      <!-- Sosial Media -->
+      <div>
+        <h3 class="footer-title">Informasi Lebih Lanjut</h3>
+        <p class="footer-text">
+          Untuk informasi lebih lanjut tentang AKSARA, silakan hubungi kami melalui media sosial.
+        </p>
+
+        <a href="https://www.instagram.com/aksaraweb_official" target="_blank">
+          <img src="logo instagram.png" alt="Instagram" class="social-icon">
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Footer bawah -->
+    <div class="footer-bottom">
+      <p>© 2026 AKSARA – Aplikasi Kebudayaan Sejarah dan Arsitektur Plaosan</p>
+      <p>Kabupaten Klaten, Jawa Tengah</p>
+      <p class="credit">
+        Dikembangkan oleh <b>Tim Saphalya</b> untuk mendukung pelestarian warisan budaya Indonesia.
+      </p>
+    </div>
+
+  </div>
+
+</footer>
+
 
 <style>
-.social-icon {
-  width: 40px;   /* sesuaikan ukuran */
-  height: auto;
-  cursor: pointer;
-  transition: transform 0.2s;
+
+/* FOOTER */
+.footer{
+  background: radial-gradient(circle at top, #6d4c41, #2b1b18);
+  color:#fff8e1;
+  padding:50px 20px 20px;
+  margin-top:80px;
 }
-.social-icon:hover {
-  transform: scale(1.1); /* efek zoom saat hover */
+
+.footer-container{
+  max-width:1200px;
+  margin:auto;
 }
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:40px;
+}
+
+.footer-title{
+  color:#ffca28;
+  margin-bottom:15px;
+  font-size:20px;
+}
+
+.footer-text{
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* LINK MENU */
+.footer-link{
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.footer-link:hover{
+  color:#ffca28;
+}
+
+/* ICON IG */
+.social-icon{
+  width:40px;
+  margin-top:10px;
+  transition:0.3s;
+}
+
+.social-icon:hover{
+  transform:scale(1.1);
+}
+
+/* BAGIAN BAWAH */
+.footer-bottom{
+  border-top:1px solid rgba(157, 88, 88, 0.2);
+  margin-top:40px;
+  padding-top:20px;
+  text-align:center;
+  font-size:14px;
+}
+
+.credit{
+  margin-top:8px;
+  opacity:0.9;
+}
+
 </style>
-
-                </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 AKSARA – Aplikasi Kebudayaan Sejarah dan Arsitektur Plaosan</p>
-                <p>Kabupaten Klaten, Jawa Tengah</p> 
-                <p style="margin-top: 0.5rem;">Dikembangkan oleh Tim Saphalya untuk mendukung pelestarian warisan budaya Indonesia.</p>   
-               
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Splash Screen
         setTimeout(() => {

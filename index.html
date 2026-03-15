@@ -1668,9 +1668,8 @@ function startQuiz() {
   background-color: #5C3317; /* coklat lebih gelap */
 }
 </style>
-
-         <!-- Profile Section -->
-          <section id="profile" class="section">
+<!-- Profile Section -->
+<section id="profile" class="section">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">👤 Profil Pembuat</h2>
@@ -1680,20 +1679,21 @@ function startQuiz() {
       </p>
     </div>
 
-    <div class="cards-grid">
+    <div class="cards-grid" style="display:flex; justify-content:center; gap:2rem; flex-wrap:wrap;">
 
       <!-- PEMBUAT 1 -->
-      <div class="card text-center">
+      <div class="card text-center" style="text-align:center;">
         <img 
           src="aisyah.jpeg" 
           alt="Foto Pembuat 1"
           style="
+            display:block;
+            margin:0 auto 1rem auto;
             width:120px;
             height:120px;
             border-radius:50%;
             object-fit:cover;
             border:4px solid #fbbf24;
-            margin-bottom:1rem;
           "
         >
         <h3 class="card-title">Aisyah Dhia Syarafana</h3>
@@ -1702,22 +1702,22 @@ function startQuiz() {
           <strong>Sekolah: </strong> SMA Negeri 1 Klaten<br>
           <strong>Instagram:</strong> 
             <a href="https://www.instagram.com/aisyrfn._" target="_blank">@aisyrfn._</a>
-
         </p>
       </div>
 
       <!-- PEMBUAT 2 -->
-      <div class="card text-center">
+      <div class="card text-center" style="text-align:center;">
         <img 
           src="sekar.jpeg" 
           alt="Foto Pembuat 2"
           style="
+            display:block;
+            margin:0 auto 1rem auto;
             width:120px;
             height:120px;
             border-radius:50%;
             object-fit:cover;
             border:4px solid #fbbf24;
-            margin-bottom:1rem;
           "
         >
         <h3 class="card-title">Sekar Ayu Nur Jannah</h3>
@@ -1730,8 +1730,9 @@ function startQuiz() {
       </div>
 
     </div>
-
-    <div class="card mt-4">
+  </div>
+</section>
+        <div class="card mt-4">
       <h3 class="card-title">🎯 Tentang Proyek</h3>
       <p class="card-text">
         AKSARA (Aplikasi Kebudayaan Sejarah & Arsitektur Plaosan) merupakan media edukasi interaktif berbasis website yang dirancang untuk memperkenalkan serta melestarikan nilai sejarah dan arsitektur Candi Plaosan kepada generasi muda.

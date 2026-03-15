@@ -170,67 +170,24 @@
         }
 
         /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(90deg, #78350f, #c2410c);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
+        /* CSS KUSTOM */
+           
+            .navbar {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+            }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+            .nav-link {
+            font-weight: 500;
+            transition: 0.3s;
+            }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #fef3c7;
-        }
+            .nav-link:hover {
+            color: #ffca28 !important;
+            transform: scale(1.05);
+            }
 
-        .nav-logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #fbbf24;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
+            
 
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            color: #fef3c7;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: #fbbf24;
-            color: #78350f;
-        }
 
         /* Main Content */
         main {
@@ -724,7 +681,7 @@
         /* Footer */
         footer {
             background: linear-gradient(135deg, #78350f, #c2410c);
-            color: white;
+            color: rgb(174, 95, 95);
             padding: 3rem 1rem;
         }
 
@@ -758,7 +715,7 @@
         }
 
         .footer-link:hover {
-            color: white;
+            color: rgb(168, 109, 109);
         }
 
         .footer-bottom {
@@ -851,55 +808,74 @@
         </div>
     </div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+<!-- BOOTSTRAP CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- NAVBAR AKSARA -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background:#4e342e;">
+  <div class="container-fluid">
+
+    <!-- LOGO + NAMA -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="logo.png" width="40" height="40" style="margin-right:10px;">
+      <span style="font-weight:bold; letter-spacing:2px;">AKSARA</span>
+    </a>
+
+    <!-- TOGGLE HP -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAKSARA">
+      <span class="navbar-toggler-icon"></span>
     </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
+
+    <!-- MENU -->
+    <div class="collapse navbar-collapse" id="navbarAKSARA">
+      <ul class="navbar-nav ms-auto">
+
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link active" onclick="showSection('home')">🏠 Beranda</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" onclick="showSection('timeline')">⏰ Sejarah</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <a class="nav-link" onclick="showSection('map')">🗺️ Lokasi</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('gallery')">📸 Galeri</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('comic')">📚 Komik</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('facts')">💡 Fakta</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('quiz')">🎯 Kuis</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('feedback')">💬 Feedback</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" onclick="showSection('profile')">👤 Profil</a>
+        </li>
+
       </ul>
     </div>
+
   </div>
 </nav>
-    <nav>
-        <div class="nav-container">
-            <div class="nav-logo">
-                <div class="nav-logo-icon">
-                    <img src="logo.png" alt="Logo AKSARA" class="logo-img">
-                </div>
-                <h1>AKSARA</h1>
-            </div>
-            
-            <div class="nav-links">
-                <button class="nav-link active" onclick="showSection('home')">🏠 Beranda</button>
-                <button class="nav-link" onclick="showSection('timeline')">⏰ Sejarah</button>
-                <button class="nav-link" onclick="showSection('map')">🗺️ Lokasi</button>
-                <button class="nav-link" onclick="showSection('gallery')">📸 Galeri</button>
-                <button class="nav-link" onclick="showSection('comic')">📚 Komik</button>
-                <button class="nav-link" onclick="showSection('facts')">💡 Fakta</button>
-                <button class="nav-link" onclick="showSection('quiz')">🎯 Kuis</button>
-                <button class="nav-link" onclick="showSection('feedback')">💬 Feedback</button>
-                <button class="nav-link" onclick="showSection('profile')">👤 Profil Pembuat</button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+<!-- Main Content -->
     <main>
         <!-- Home Section -->
               <section id="home" class="section active">
@@ -1004,122 +980,285 @@
 
 <!-- Comic Section -->
 <section id="comic" class="section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">📖 Komik Plaosan</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">Pilih chapter untuk membaca</p>
-    </div>
 
-    <!-- Tombol Chapter -->
-    <div id="chapter-menu" class="chapter-buttons">
-      <button onclick="showChapter(1)">
-        <span class="title">AKSARA</span>
-        <span class="subtitle">Chapter 1</span>
-        <span class="subtitle">Gerbang yang Hampir Tertutup</span>
-      </button>
-      <button disabled>
-        <span class="title">AKSARA</span>
-        <span class="subtitle">Coming Soon</span>
-      </button>
-      <button disabled>
-        <span class="title">AKSARA</span>
-        <span class="subtitle">Coming Soon</span>
-      </button>
-    </div>
+<div class="container">
 
-    <!-- Isi Komik -->
-    <div id="chapter1" class="chapter-content" style="display:none;">
-      <button class="back-btn" onclick="backToMenu()">⬅ Kembali</button>
-      <img src="chapter 1.png" alt="Chapter 1 Page 1">
-    
-    </div>
-  </div>
+<div class="section-header">
+<h2 class="section-title">📖 Komik Plaosan</h2>
+<div class="section-divider"></div>
+<p class="section-subtitle">Pilih chapter untuk membaca</p>
+</div>
+
+<!-- MENU CHAPTER -->
+<div id="chapter-menu" class="chapter-buttons">
+
+<button onclick="showChapter(1)">
+<span class="title">AKSARA</span>
+<span class="subtitle">Chapter 1</span>
+<span class="subtitle">Gerbang yang Hampir Tertutup</span>
+</button>
+
+<button disabled>
+<span class="title">AKSARA</span>
+<span class="subtitle">Chapter 2</span>
+<span class="subtitle">Coming Soon</span>
+</button>
+
+<button disabled>
+<span class="title">AKSARA</span>
+<span class="subtitle">Chapter 3</span>
+<span class="subtitle">Coming Soon</span>
+</button>
+
+</div>
+
+
+<!-- CHAPTER 1 -->
+<div id="chapter1" class="chapter-content">
+
+<button class="back-btn" onclick="backToMenu()">⬅ Kembali</button>
+
+<img src="chapter1.png">
+<img src="chapter1-2.png">
+<img src="chapter1-3.png">
+
+</div>
+
+</div>
 </section>
 
+
 <script>
-function showChapter(chapter) {
-  document.getElementById('chapter-menu').style.display = 'none';
-  document.querySelectorAll('.chapter-content').forEach(el => el.style.display = 'none');
-  document.getElementById('chapter' + chapter).style.display = 'block';
-  document.getElementById('comic').scrollIntoView({behavior: 'smooth'});
+
+function showChapter(chapter){
+
+document.getElementById("chapter-menu").style.display = "none";
+
+document.querySelectorAll(".chapter-content").forEach(section=>{
+section.style.display="none"
+})
+
+document.getElementById("chapter"+chapter).style.display="block"
+
+document.getElementById("comic").scrollIntoView({
+behavior:"smooth"
+})
+
 }
 
-function backToMenu() {
-  document.querySelectorAll('.chapter-content').forEach(el => el.style.display = 'none');
-  document.getElementById('chapter-menu').style.display = 'flex';
-  document.getElementById('comic').scrollIntoView({behavior: 'smooth'});
+
+function backToMenu(){
+
+document.querySelectorAll(".chapter-content").forEach(section=>{
+section.style.display="none"
+})
+
+document.getElementById("chapter-menu").style.display="flex"
+
+document.getElementById("comic").scrollIntoView({
+behavior:"smooth"
+})
+
 }
+
 </script>
 
+
+
 <style>
-.chapter-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 40px 0;
+
+/* SECTION */
+.section{
+padding:80px 20px;
+text-align:center;
 }
 
-.chapter-buttons button {
-  background-color: #8B5E3C; /* coklat */
-  color: #fff;
-  width: 220px;
-  height: 160px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* HEADER */
+.section-title{
+font-size:32px;
+margin-bottom:10px;
 }
 
-.chapter-buttons button:hover:enabled {
-  background-color: #A97458;
+.section-subtitle{
+color:#caa27a;
+margin-bottom:30px;
 }
 
-.chapter-buttons button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.section-divider{
+width:60px;
+height:4px;
+background:#8B5E3C;
+margin:10px auto 20px auto;
+border-radius:10px;
 }
 
-.chapter-buttons .title {
-  font-family: "Brush Script MT", cursive; /* curly style */
-  font-size: 32px;
-  font-weight: bold;
+
+
+/* CHAPTER BUTTONS */
+.chapter-buttons{
+
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+
+margin:40px 0;
+
 }
 
-.chapter-buttons .subtitle {
-  font-size: 16px;
-  margin-top: 8px;
+
+/* BUTTON */
+.chapter-buttons button{
+
+background:#8B5E3C;
+
+color:white;
+
+width:230px;
+height:160px;
+
+border:none;
+border-radius:15px;
+
+cursor:pointer;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+transition:0.3s;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.3);
+
 }
 
-.chapter-content img {
-  width: 100%;
-  max-width: 600px;
-  margin: 10px auto;
-  display: block;
+
+.chapter-buttons button:hover:enabled{
+
+background:#A97458;
+
+transform:translateY(-5px);
+
 }
 
-.back-btn {
-  margin: 20px 0;
-  padding: 12px 28px;
-  cursor: pointer;
-  background: #8B5E3C;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  transition: 0.3s;
+
+.chapter-buttons button:disabled{
+
+background:#bbb;
+cursor:not-allowed;
+
 }
 
-.back-btn:hover {
-  background: #A97458;
+
+
+/* TEXT */
+
+.title{
+
+font-size:32px;
+font-family:"Brush Script MT",cursive;
+
 }
+
+
+.subtitle{
+
+font-size:15px;
+margin-top:6px;
+
+}
+
+
+
+/* CHAPTER CONTENT */
+
+.chapter-content{
+
+display:none;
+margin-top:40px;
+
+}
+
+
+.chapter-content img{
+
+width:100%;
+max-width:650px;
+
+display:block;
+margin:20px auto;
+
+border-radius:12px;
+
+box-shadow:0 0 18px rgba(0,0,0,0.4);
+
+}
+
+
+
+/* BACK BUTTON */
+
+.back-btn{
+
+margin-bottom:30px;
+
+padding:12px 28px;
+
+background:#8B5E3C;
+
+color:white;
+
+border:none;
+
+border-radius:10px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.back-btn:hover{
+
+background:#A97458;
+
+}
+
+
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
+
+.chapter-buttons{
+
+flex-direction:column;
+align-items:center;
+
+}
+
+.chapter-buttons button{
+
+width:90%;
+max-width:340px;
+height:130px;
+
+}
+
+.section-title{
+
+font-size:26px;
+
+}
+
+}
+
 </style>
-
 <!-- Gallery Section -->
 <section id="gallery" class="section">
     <div class="container">
@@ -1636,9 +1775,26 @@ function startQuiz() {
                     <h3 class="footer-title">Informasi Lebih Lanjut</h3>
                     <p class="footer-text">Untuk informasi lebih lanjut tentang AKSARA,</p>
                     <p class="footer-text">silakan hubungi kami melalui media sosial.</p>
-                     <a href="https://www.instagram.com/aksaraweb_official" target="_blank">
+                    <a href="https://www.instagram.com/aksaraweb_official" target="_blank">
                         <img src="logo instagram.png" alt="Instagram" class="social-icon">
-                     </a>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<style>
+.social-icon {
+  width: 40px;   /* sesuaikan ukuran */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.social-icon:hover {
+  transform: scale(1.1); /* efek zoom saat hover */
+}
+</style>
+
                 </div>
                 </div>
             </div>
